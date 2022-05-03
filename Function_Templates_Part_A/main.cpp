@@ -20,30 +20,30 @@ char character(char start, int offset)
                 cout << "Start: " << start << endl;
                 cout << "Offset: " << offset << endl;
                 
+                newValue = start + offset;
+                
                 if (!isalpha(start))
                 {
                     throw invalidRangeException;
                 }
-                else if (start <= 'a' || start <= 'A')
+                else if (newValue < 'a' || newValue < 'A')
                 {
                     throw invalidCharacterException;
                 }
-                else if (start >= 'z' || start <= 'Z')
+                else if (newValue > 'z' || newValue < 'Z')
                 {
                     throw invalidCharacterException;
                 }
-                
-                newValue = start + offset;
-            
-                
             }
             catch(string invalidRangeException)
             {
                 cout << invalidRangeException << endl;
+                newValue = ' ';
             }
             catch(char invalidCharacterException[])
             {
                 cout << invalidRangeException << endl;
+                newValue = ' ';
             }
            
         
@@ -52,5 +52,23 @@ char character(char start, int offset)
 }
 int main()
 {
-   
+    char start;
+    int offset;
+    bool again = true;
+    
+    while(again)
+    {
+        cout << "Enter the starting letter." << endl;
+        cin >> start;
+        cout << "Enter the amount you want to offset by." << endl;
+        cin >> offset;
+        
+        char newValue = character(start, offset);
+        cout << "New value: " << newValue << endl;
+        
+        cout << "Enter 1 to process again, else enter 0." << endl;
+        cin >> again;
+        
+        
+    }
 }
