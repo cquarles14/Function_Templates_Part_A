@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cstring>
+#include <string>
 
 using namespace std;
 
@@ -12,11 +14,11 @@ using namespace std;
 char character(char start, int offset)
 {
     char newValue;
-    string invalidRangeException = "Error: not a letter.";
-    char invalidCharacterException [] = {"Error: start must be greater that A and less than Z."};
-    {
-          try
-            {
+    string invalidRangeException = "Error: Not a letter.";
+    string invalidCharacterException = "Error: New value must be greater that A and less than Z.";
+    string invalidUpperToLower = "Error: Cannot switch from uppercase to lowercase or vice versa.";
+    
+          
                 cout << "Start: " << start << endl;
                 cout << "Offset: " << offset << endl;
                 
@@ -26,28 +28,20 @@ char character(char start, int offset)
                 {
                     throw invalidRangeException;
                 }
-                else if (newValue < 'a' || newValue < 'A')
+                else if (!isalpha(newValue))
                 {
                     throw invalidCharacterException;
                 }
-                else if (newValue > 'z' || newValue < 'Z')
+                else if ((isupper(start) && islower(newValue)) || (islower(start) && isupper(newValue)))
                 {
-                    throw invalidCharacterException;
+                    throw invalidUpperToLower;
                 }
-            }
-            catch(string invalidRangeException)
-            {
-                cout << invalidRangeException << endl;
-                newValue = ' ';
-            }
-            catch(char invalidCharacterException[])
-            {
-                cout << invalidRangeException << endl;
-                newValue = ' ';
-            }
+               
+            
+            
            
         
-    }
+    
     return newValue;
 }
 int main()
@@ -55,6 +49,7 @@ int main()
     char start;
     int offset;
     bool again = true;
+    char newValue;
     
     while(again)
     {
@@ -63,7 +58,26 @@ int main()
         cout << "Enter the amount you want to offset by." << endl;
         cin >> offset;
         
-        char newValue = character(start, offset);
+        try
+          {
+            newValue = character(start, offset);
+          }
+        catch(string invalidRangeException)
+        {
+            cout << invalidRangeException << endl;
+            newValue = ' ';
+        }
+        catch(string invalidCharacterException[])
+        {
+            cout << invalidCharacterException << endl;
+            newValue = ' ';
+        }
+        catch(string invalidUppertoLower)
+        {
+            cout << invalidUppertoLower << endl;
+            newValue = ' ';
+        }
+        
         cout << "New value: " << newValue << endl;
         
         cout << "Enter 1 to process again, else enter 0." << endl;
